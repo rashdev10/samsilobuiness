@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#061745" />
+    <title>Offline | Samsilo Digital Hub</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --primary: #079de4;
+        --secondary: #061745;
+        --dark: #020b26;
+        --light: #f5faff;
+        --border: #d8eaf8;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Gilroy, "Segoe UI", Arial, sans-serif;
+        background:
+          radial-gradient(circle at 85% 10%, rgba(22, 184, 241, 0.22), transparent 30%),
+          linear-gradient(135deg, var(--secondary) 0%, var(--dark) 100%);
+        color: white;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+
+      main {
+        width: min(560px, 100%);
+        border: 1px solid rgba(216, 234, 248, 0.22);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.08);
+        padding: 32px;
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(18px);
+      }
+
+      img {
+        width: 56px;
+        height: 56px;
+        border-radius: 12px;
+        background: white;
+        padding: 8px;
+      }
+
+      h1 {
+        margin: 24px 0 12px;
+        font-size: clamp(2rem, 8vw, 3.5rem);
+        line-height: 1;
+      }
+
+      p {
+        margin: 0;
+        color: #d7e3f2;
+        line-height: 1.7;
+      }
+
+      a {
+        margin-top: 24px;
+        min-height: 48px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #16b8f1 0%, #079de4 45%, #004ec2 100%);
+        color: white;
+        padding: 0 18px;
+        font-weight: 800;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <img src="/samsilo-favicon-192.png" alt="Samsilo Digital Hub logo" />
+      <h1>You are offline</h1>
+      <p>
+        Samsilo Digital Hub could not load the latest page. Check your connection, then reopen the site for services,
+        packages, retainership, blog guides, and contact details.
+      </p>
+      <a href="/">Try again</a>
+    </main>
+  </body>
+</html>
