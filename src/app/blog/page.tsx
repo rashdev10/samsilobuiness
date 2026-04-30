@@ -26,7 +26,8 @@ export const metadata: Metadata = {
         url: siteConfig.image,
         width: 1200,
         height: 630,
-        alt: "Samsilo Digital Hub - Campus Digital Service Nigeria Business Card"
+        alt: "Samsilo Digital Hub - Campus Digital Service Nigeria Business Card",
+        type: "image/png"
       }
     ]
   },
@@ -34,7 +35,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Campus Digital Tips Blog | Samsilo Digital Hub",
     description: "Guides on projects, portals, AI tools, CV writing, data analysis, and student business branding.",
-    images: [siteConfig.image]
+    images: {
+      url: siteConfig.image,
+      alt: "Samsilo Digital Hub - Campus Digital Service Nigeria Business Card"
+    }
   }
 };
 

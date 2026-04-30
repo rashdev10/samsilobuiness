@@ -57,7 +57,8 @@ export const metadata: Metadata = {
         url: siteConfig.image,
         width: 1200,
         height: 630,
-        alt: "Samsilo Digital Hub - Campus Digital Service Nigeria Business Card"
+        alt: "Samsilo Digital Hub - Campus Digital Service Nigeria Business Card",
+        type: "image/png"
       }
     ],
     type: "website"
@@ -66,7 +67,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${siteConfig.name} | Campus Digital Service Nigeria`,
     description: siteConfig.description,
-    images: [siteConfig.image]
+    images: {
+      url: siteConfig.image,
+      alt: "Samsilo Digital Hub - Campus Digital Service Nigeria Business Card"
+    }
   },
   manifest: "/manifest.webmanifest",
   appleWebApp: {

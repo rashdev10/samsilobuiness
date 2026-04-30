@@ -3,6 +3,7 @@ import { BadgeCheck, CheckCircle2, Gift, MessageCircle, Repeat, Users } from "lu
 import { PageChrome, PageHero, SectionIntro } from "@/components/page-primitives";
 import { heroImages } from "@/lib/hero-images";
 import { retainershipPlans } from "@/lib/offerings";
+import { siteConfig } from "@/lib/seo";
 import { whatsappLink } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -11,6 +12,31 @@ export const metadata: Metadata = {
     "Join Samsilo Digital Hub retainership plans for priority service, discounted printing, school updates, academic support, final-year support, department bulk printing, and referral rewards.",
   alternates: {
     canonical: "/retainership"
+  },
+  openGraph: {
+    title: "Student and Department Retainership Plans | Samsilo Digital Hub",
+    description:
+      "Join Samsilo Digital Hub retainership plans for priority service, discounted printing, school updates, academic support, final-year support, department bulk printing, and referral rewards.",
+    url: "/retainership",
+    images: [
+      {
+        url: siteConfig.image,
+        width: 1200,
+        height: 630,
+        alt: "Samsilo Digital Hub - Campus Digital Service Nigeria Business Card",
+        type: "image/png"
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Student and Department Retainership Plans | Samsilo Digital Hub",
+    description:
+      "Priority service, discounted printing, school updates, academic support, final-year support, department bulk printing, and referral rewards.",
+    images: {
+      url: siteConfig.image,
+      alt: "Samsilo Digital Hub - Campus Digital Service Nigeria Business Card"
+    }
   }
 };
 

@@ -3,6 +3,7 @@ import { Clock, MapPin, MessageCircle, Phone, ShieldCheck } from "lucide-react";
 import { ContactForm } from "@/components/contact-form";
 import { PageChrome, PageHero } from "@/components/page-primitives";
 import { heroImages } from "@/lib/hero-images";
+import { siteConfig } from "@/lib/seo";
 import { business, whatsappLink } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -11,6 +12,31 @@ export const metadata: Metadata = {
     "Contact Samsilo Digital Hub on WhatsApp for student printing service, project formatting Nigeria, school portal support, data analysis, CV writing, AI training, and campus business branding.",
   alternates: {
     canonical: "/contact"
+  },
+  openGraph: {
+    title: "Contact Samsilo Digital Hub | Campus Digital Service Nigeria",
+    description:
+      "Contact Samsilo Digital Hub on WhatsApp for student printing service, project formatting Nigeria, school portal support, data analysis, CV writing, AI training, and campus business branding.",
+    url: "/contact",
+    images: [
+      {
+        url: siteConfig.image,
+        width: 1200,
+        height: 630,
+        alt: "Samsilo Digital Hub - Campus Digital Service Nigeria Business Card",
+        type: "image/png"
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact Samsilo Digital Hub | Campus Digital Service Nigeria",
+    description:
+      "Contact us for student printing service, project formatting, school portal support, data analysis, CV writing, AI training, and campus business branding.",
+    images: {
+      url: siteConfig.image,
+      alt: "Samsilo Digital Hub - Campus Digital Service Nigeria Business Card"
+    }
   }
 };
 

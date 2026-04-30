@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ArrowRight, BadgeCheck, GraduationCap, Handshake, MapPin, Rocket, Users } from "lucide-react";
 import { PageChrome, PageHero, SectionIntro } from "@/components/page-primitives";
 import { heroImages } from "@/lib/hero-images";
+import { siteConfig } from "@/lib/seo";
 import { business, whatsappLink } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -10,6 +11,31 @@ export const metadata: Metadata = {
     "Learn about Samsilo Digital Hub, a campus digital service Nigeria brand supporting students, lecturers, departments, freshers, final-year students, class reps, graduates, and campus businesses.",
   alternates: {
     canonical: "/about"
+  },
+  openGraph: {
+    title: "About Samsilo Digital Hub | Campus Digital Service Nigeria",
+    description:
+      "Learn about Samsilo Digital Hub, a campus digital service Nigeria brand supporting students, lecturers, departments, freshers, final-year students, class reps, graduates, and campus businesses.",
+    url: "/about",
+    images: [
+      {
+        url: siteConfig.image,
+        width: 1200,
+        height: 630,
+        alt: "Samsilo Digital Hub - Campus Digital Service Nigeria Business Card",
+        type: "image/png"
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Samsilo Digital Hub | Campus Digital Service Nigeria",
+    description:
+      "A campus digital service Nigeria brand supporting students, lecturers, departments, and campus businesses.",
+    images: {
+      url: siteConfig.image,
+      alt: "Samsilo Digital Hub - Campus Digital Service Nigeria Business Card"
+    }
   }
 };
 

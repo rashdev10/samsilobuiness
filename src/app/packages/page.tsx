@@ -3,6 +3,7 @@ import { CheckCircle2, MessageCircle, Sparkles, Star, WalletCards } from "lucide
 import { PageChrome, PageHero, SectionIntro } from "@/components/page-primitives";
 import { heroImages } from "@/lib/hero-images";
 import { packages } from "@/lib/offerings";
+import { siteConfig } from "@/lib/seo";
 import { whatsappLink } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -11,6 +12,31 @@ export const metadata: Metadata = {
     "View Samsilo Digital Hub starting-from packages for freshers, assignments, final-year defence, job-ready graduates, student entrepreneurs, and department events.",
   alternates: {
     canonical: "/packages"
+  },
+  openGraph: {
+    title: "Service Packages and Pricing | Samsilo Digital Hub",
+    description:
+      "View Samsilo Digital Hub starting-from packages for freshers, assignments, final-year defence, job-ready graduates, student entrepreneurs, and department events.",
+    url: "/packages",
+    images: [
+      {
+        url: siteConfig.image,
+        width: 1200,
+        height: 630,
+        alt: "Samsilo Digital Hub - Campus Digital Service Nigeria Business Card",
+        type: "image/png"
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Service Packages and Pricing | Samsilo Digital Hub",
+    description:
+      "Starting-from packages for freshers, assignments, final-year defence, job-ready graduates, student entrepreneurs, and department events.",
+    images: {
+      url: siteConfig.image,
+      alt: "Samsilo Digital Hub - Campus Digital Service Nigeria Business Card"
+    }
   }
 };
 

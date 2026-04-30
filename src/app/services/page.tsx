@@ -14,6 +14,7 @@ import {
 import { PageChrome, PageHero, SectionIntro } from "@/components/page-primitives";
 import { heroImages } from "@/lib/hero-images";
 import { serviceCategories } from "@/lib/offerings";
+import { siteConfig } from "@/lib/seo";
 import { whatsappLink } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -22,6 +23,31 @@ export const metadata: Metadata = {
     "Explore Samsilo Digital Hub services: student printing service, school portal support, project formatting Nigeria, data analysis for students, CV writing, AI training, and student business branding.",
   alternates: {
     canonical: "/services"
+  },
+  openGraph: {
+    title: "Campus Digital Services | Samsilo Digital Hub",
+    description:
+      "Explore Samsilo Digital Hub services: student printing service, school portal support, project formatting Nigeria, data analysis for students, CV writing, AI training, and student business branding.",
+    url: "/services",
+    images: [
+      {
+        url: siteConfig.image,
+        width: 1200,
+        height: 630,
+        alt: "Samsilo Digital Hub - Campus Digital Service Nigeria Business Card",
+        type: "image/png"
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Campus Digital Services | Samsilo Digital Hub",
+    description:
+      "Student printing service, school portal support, project formatting Nigeria, data analysis, CV writing, AI training, and business branding.",
+    images: {
+      url: siteConfig.image,
+      alt: "Samsilo Digital Hub - Campus Digital Service Nigeria Business Card"
+    }
   }
 };
 
