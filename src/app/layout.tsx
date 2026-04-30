@@ -57,7 +57,7 @@ export const metadata: Metadata = {
         url: siteConfig.image,
         width: 1200,
         height: 630,
-        alt: "Samsilo Digital Hub campus digital service team"
+        alt: "Samsilo Digital Hub - Campus Digital Service Nigeria Business Card"
       }
     ],
     type: "website"

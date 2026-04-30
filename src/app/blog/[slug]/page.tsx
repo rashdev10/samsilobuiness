@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: BlogArticlePageProps): Promis
           url: siteConfig.image,
           width: 1200,
           height: 630,
-          alt: post.title
+          alt: "Samsilo Digital Hub - Campus Digital Service Nigeria Business Card"
         }
       ]
     },

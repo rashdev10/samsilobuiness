@@ -26,7 +26,7 @@ export const siteConfig = {
   locale: "en_NG",
   language: "en-NG",
   logo: "/samsilo-favicon-512.png",
-  image: "/images/campus-digital-service.jpg",
+  image: "/images/businesscard.png",
   description:
     "Samsilo Digital Hub is a modern campus digital service Nigeria brand for student printing service, school portal support, project formatting Nigeria, student CV writing, data analysis for students, AI training, defence slides, and student business branding."
 };
