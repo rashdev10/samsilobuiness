@@ -63,8 +63,8 @@ export default function RetainershipPage() {
             {retainershipPlans.map((plan) => (
               <article
                 key={plan.title}
-                className={`rounded-lg border p-6 shadow-sm ${
-                  plan.featured ? "border-green-500 bg-green-50" : "border-slate-200 bg-white"
+                className={`rounded-lg border p-6 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-xl ${
+                  plan.featured ? "border-green-500 bg-green-50 hover:border-green-600" : "border-slate-200 bg-white hover:border-blue-300"
                 }`}
               >
                 <h2 className="text-xl font-black text-slate-950">{plan.title}</h2>
@@ -104,7 +104,7 @@ export default function RetainershipPage() {
               const Icon = benefit.icon;
 
               return (
-                <article key={benefit.title} className="rounded-lg border border-slate-200 bg-white p-6">
+                <article key={benefit.title} className="rounded-lg border border-slate-200 bg-white p-6 transition-all duration-300 hover:scale-105 hover:border-blue-300 hover:shadow-lg">
                   <Icon className="size-7 text-blue-800" aria-hidden="true" />
                   <h2 className="mt-4 text-lg font-black text-slate-950">{benefit.title}</h2>
                   <p className="mt-2 text-sm leading-6 text-slate-600">{benefit.text}</p>

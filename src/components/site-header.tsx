@@ -65,7 +65,7 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="brand-header sticky inset-x-0 top-0 z-50 border-b border-white/[0.15] text-white backdrop-blur-xl">
+    <header className="brand-header fixed inset-x-0 top-0 z-50 border-b border-white/[0.15] text-white backdrop-blur-xl">
       <div className="section-shell flex min-h-[74px] items-center justify-between gap-4">
         <Link href="/" className="flex items-center gap-3" aria-label="Samsilo Digital Hub home">
           <span className="logo-mark flex size-11 items-center justify-center rounded-lg bg-white p-1.5">

@@ -92,7 +92,7 @@ export default function AboutPage() {
             {strengths.map((item) => {
               const Icon = item.icon;
               return (
-                <article key={item.title} className="rounded-lg border border-slate-200 bg-slate-50 p-6 shadow-sm">
+                <article key={item.title} className="rounded-lg border border-slate-200 bg-slate-50 p-6 shadow-sm transition-all duration-300 hover:scale-105 hover:border-blue-300 hover:shadow-lg">
                   <Icon className="size-7 text-blue-800" aria-hidden="true" />
                   <h3 className="mt-4 text-lg font-black text-slate-950">{item.title}</h3>
                   <p className="mt-2 text-sm leading-6 text-slate-600">{item.text}</p>
@@ -111,7 +111,7 @@ export default function AboutPage() {
           />
           <div className="grid gap-4 md:grid-cols-3">
             {audiences.map((audience) => (
-              <article key={audience} className="rounded-lg border border-slate-200 bg-white p-5">
+              <article key={audience} className="rounded-lg border border-slate-200 bg-white p-5 transition-all duration-300 hover:scale-105 hover:border-blue-300 hover:shadow-lg">
                 <Users className="size-6 text-blue-800" aria-hidden="true" />
                 <h3 className="mt-4 text-base font-black leading-snug text-slate-950">{audience}</h3>
               </article>
@@ -127,7 +127,7 @@ export default function AboutPage() {
             ["2", "Confirm", "We clarify the deadline, files, preferred format, price range, and delivery channel."],
             ["3", "Deliver", "Your document, design, portal support, training, or package is handled with professional follow-up."]
           ].map(([step, title, text]) => (
-            <article key={step} className="rounded-lg border border-slate-200 bg-slate-50 p-6">
+            <article key={step} className="rounded-lg border border-slate-200 bg-slate-50 p-6 transition-all duration-300 hover:scale-105 hover:border-blue-300 hover:shadow-lg">
               <span className="inline-flex size-10 items-center justify-center rounded-lg bg-blue-50 text-sm font-black text-blue-900">
                 {step}
               </span>

@@ -57,8 +57,8 @@ export default function PackagesPage() {
             {packages.map((item) => (
               <article
                 key={item.title}
-                className={`flex h-full flex-col rounded-lg border p-6 shadow-sm ${
-                  item.featured ? "border-green-500 bg-green-50" : "border-slate-200 bg-white"
+                className={`flex h-full flex-col rounded-lg border p-6 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-xl ${
+                  item.featured ? "border-green-500 bg-green-50 hover:border-green-600" : "border-slate-200 bg-white hover:border-blue-300"
                 }`}
               >
                 <div className="flex items-start justify-between gap-4">
@@ -98,7 +98,7 @@ export default function PackagesPage() {
           />
           <div className="grid gap-4 md:grid-cols-2">
             {comparisons.map(([title, text]) => (
-              <article key={title} className="rounded-lg border border-slate-200 bg-white p-6">
+              <article key={title} className="rounded-lg border border-slate-200 bg-white p-6 transition-all duration-300 hover:scale-105 hover:border-blue-300 hover:shadow-lg">
                 <h2 className="text-xl font-black text-slate-950">{title}</h2>
                 <p className="mt-3 text-sm leading-6 text-slate-600">{text}</p>
               </article>

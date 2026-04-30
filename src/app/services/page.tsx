@@ -77,7 +77,7 @@ export default function ServicesPage() {
               return (
                 <article
                   key={category.title}
-                  className="flex h-full flex-col rounded-lg border border-slate-200 bg-slate-50 p-6 shadow-sm transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-md"
+                  className="flex h-full flex-col rounded-lg border border-slate-200 bg-slate-50 p-6 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-blue-300 hover:shadow-xl"
                 >
                   <div className="flex items-start gap-4">
                     <span className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-800">
@@ -126,7 +126,7 @@ export default function ServicesPage() {
           </div>
           <div className="grid gap-4">
             {workflows.map((item, index) => (
-              <article key={item} className="rounded-lg border border-slate-200 bg-white p-5">
+              <article key={item} className="rounded-lg border border-slate-200 bg-white p-5 transition-all duration-300 hover:scale-105 hover:border-blue-300 hover:shadow-lg">
                 <div className="flex gap-4">
                   <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-sm font-black text-blue-900">
                     {index + 1}

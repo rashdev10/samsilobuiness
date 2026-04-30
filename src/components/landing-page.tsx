@@ -2,9 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { FormEvent, type ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { type ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { motion, useReducedMotion } from "framer-motion";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AcademicDecorators } from "@/components/academic-decorators";
@@ -321,14 +324,35 @@ const testimonials = [
   }
 ];
 
-const contactInitial = {
-  fullName: "",
-  phone: "",
-  campus: "",
-  departmentLevel: "",
-  serviceNeeded: "",
-  message: ""
-};
+const contactSchema = z.object({
+  fullName: z
+    .string()
+    .min(2, "Full name must be at least 2 characters")
+    .max(100, "Full name must be less than 100 characters")
+    .regex(/^[a-zA-Z\s]+$/, "Full name must contain only letters and spaces"),
+  phone: z
+    .string()
+    .min(10, "Phone number must be at least 10 digits")
+    .max(15, "Phone number must be less than 15 digits")
+    .regex(/^[0-9+\s()-]+$/, "Phone number must contain only digits and valid characters"),
+  campus: z
+    .string()
+    .min(2, "School/Campus name must be at least 2 characters")
+    .max(100, "School/Campus name must be less than 100 characters"),
+  departmentLevel: z
+    .string()
+    .min(2, "Department/Level must be at least 2 characters")
+    .max(100, "Department/Level must be less than 100 characters"),
+  serviceNeeded: z
+    .string()
+    .min(1, "Please select a service"),
+  message: z
+    .string()
+    .min(10, "Message must be at least 10 characters")
+    .max(1000, "Message must be less than 1000 characters")
+});
+
+type ContactFormData = z.infer<typeof contactSchema>;
 
 type Theme = "light" | "dark";
 const themeStorageKey = "samsilo-theme";
@@ -419,10 +443,21 @@ export function LandingPage() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [theme, setTheme] = useState<Theme>("light");
   const [themeReady, setThemeReady] = useState(false);
-  const [form, setForm] = useState(contactInitial);
-  const [submitting, setSubmitting] = useState(false);
   const [formStatus, setFormStatus] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const shouldReduceMotion = useReducedMotion();
+
+  const {
+    register,
+    handleSubmit: handleFormSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+    watch
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
+    mode: "onBlur"
+  });
+
+  const formValues = watch();
 
   const onHeroSelect = useCallback(() => {
     if (!heroCarouselApi) {
@@ -521,23 +556,21 @@ export function LandingPage() {
   }, [shouldReduceMotion]);
 
   const formWhatsappLink = useMemo(() => {
-    const name = form.fullName || "a visitor";
-    const service = form.serviceNeeded || "a digital service";
+    const name = formValues?.fullName || "a visitor";
+    const service = formValues?.serviceNeeded || "a digital service";
     return whatsappLink(
-      `Hello Samsilo Digital Hub, my name is ${name}. I need help with ${service}. Phone: ${form.phone || "not provided"}.`
+      `Hello Samsilo Digital Hub, my name is ${name}. I need help with ${service}. Phone: ${formValues?.phone || "not provided"}.`
     );
-  }, [form.fullName, form.phone, form.serviceNeeded]);
+  }, [formValues]);
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setSubmitting(true);
+  async function onSubmit(data: ContactFormData) {
     setFormStatus(null);
 
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form)
+        body: JSON.stringify(data)
       });
       const result = (await response.json().catch(() => ({}))) as { error?: string };
 
@@ -549,7 +582,7 @@ export function LandingPage() {
         return;
       }
 
-      setForm(contactInitial);
+      reset();
       setFormStatus({
         type: "success",
         message: "Your request has been received. We will follow up as soon as possible."
@@ -559,8 +592,6 @@ export function LandingPage() {
         type: "error",
         message: "Network error. Please chat with us on WhatsApp for immediate support."
       });
-    } finally {
-      setSubmitting(false);
     }
   }
 
@@ -743,7 +774,7 @@ export function LandingPage() {
               {trustBadges.map((badge) => (
                 <span
                   key={badge}
-                  className="inline-flex items-center gap-2 rounded-lg border border-white/25 bg-white/[0.12] px-3 py-2 text-xs font-bold text-white backdrop-blur"
+                  className="inline-flex items-center gap-2 rounded-lg border border-white/25 bg-white/12 px-3 py-2 text-xs font-bold text-white backdrop-blur transition-all duration-300 hover:scale-105 hover:bg-white/20 hover:border-white/40"
                 >
                   <BadgeCheck className="size-4 text-yellow-300" aria-hidden="true" />
                   {badge}
@@ -780,7 +811,7 @@ export function LandingPage() {
               ["Business support", "Branding, catalogues, social media graphics, and simple landing pages"],
               ["Service channels", "Walk-in support and WhatsApp booking for faster requests"]
             ].map(([title, text]) => (
-              <article key={title} className="rounded-lg border border-slate-200 bg-slate-50 p-5 shadow-sm">
+              <article key={title} className="rounded-lg border border-slate-200 bg-slate-50 p-5 shadow-sm transition-all duration-300 hover:scale-105 hover:border-blue-300 hover:shadow-lg">
                 <h3 className="text-lg font-bold text-slate-950">{title}</h3>
                 <p className="mt-2 text-sm leading-6 text-slate-600 font-medium">{text}</p>
               </article>
@@ -801,7 +832,7 @@ export function LandingPage() {
               return (
                 <article
                   key={category.title}
-                  className="gsap-reveal flex h-full flex-col rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-md"
+                  className="gsap-reveal flex h-full flex-col rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-blue-300 hover:shadow-xl"
                 >
                   <div className="flex items-start gap-4">
                     <span className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-800">
@@ -837,8 +868,8 @@ export function LandingPage() {
             {packages.map((item) => (
               <article
                 key={item.title}
-                className={`gsap-reveal flex h-full flex-col rounded-lg border p-6 shadow-sm ${
-                  item.featured ? "border-green-500 bg-green-50" : "border-slate-200 bg-white"
+                className={`gsap-reveal flex h-full flex-col rounded-lg border p-6 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-xl ${
+                  item.featured ? "border-green-500 bg-green-50 hover:border-green-600" : "border-slate-200 bg-white hover:border-blue-300"
                 }`}
               >
                 <div className="flex items-start justify-between gap-4">
@@ -879,8 +910,8 @@ export function LandingPage() {
             {retainershipPlans.map((plan) => (
                 <article
                   key={plan.title}
-                  className={`gsap-reveal flex h-full flex-col rounded-lg border p-6 ${
-                    plan.featured ? "border-green-300 bg-white text-slate-950" : "border-white/[0.15] bg-white/[0.08]"
+                  className={`gsap-reveal flex h-full flex-col rounded-lg border p-6 transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-2xl ${
+                    plan.featured ? "border-green-300 bg-white text-slate-950 hover:border-green-400" : "border-white/15 bg-white/8 hover:bg-white/15 hover:border-white/25"
                   }`}
                 >
                 <h3 className="text-xl font-black">{plan.title}</h3>
@@ -937,7 +968,7 @@ export function LandingPage() {
               ["Refer 5 customers", "Get free CV support or higher discount"],
               ["Class rep bulk referrals", "Earn special commissions"]
             ].map(([title, text]) => (
-              <article key={title} className="rounded-lg border border-slate-200 bg-slate-50 p-5">
+              <article key={title} className="rounded-lg border border-slate-200 bg-slate-50 p-5 transition-all duration-300 hover:scale-105 hover:border-green-300 hover:shadow-lg">
                 <Handshake className="size-7 text-green-600" aria-hidden="true" />
                 <h3 className="mt-4 text-lg font-bold text-slate-950">{title}</h3>
                 <p className="mt-2 text-sm leading-6 text-slate-600">{text}</p>
@@ -957,7 +988,7 @@ export function LandingPage() {
             {whyChoose.map((point) => {
               const Icon = point.icon;
               return (
-                <article key={point.title} className="gsap-reveal rounded-lg border border-slate-200 bg-white p-5">
+                <article key={point.title} className="gsap-reveal rounded-lg border border-slate-200 bg-white p-5 transition-all duration-300 hover:scale-105 hover:border-blue-300 hover:shadow-lg">
                   <Icon className="size-7 text-blue-800" aria-hidden="true" />
                   <h3 className="mt-4 text-base font-bold leading-snug text-slate-950">{point.title}</h3>
                 </article>
@@ -975,7 +1006,7 @@ export function LandingPage() {
           />
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
             {testimonials.map((item) => (
-              <article key={item.role} className="gsap-reveal rounded-lg border border-slate-200 bg-slate-50 p-6">
+              <article key={item.role} className="gsap-reveal rounded-lg border border-slate-200 bg-slate-50 p-6 transition-all duration-300 hover:scale-105 hover:border-yellow-300 hover:shadow-lg">
                 <div className="flex gap-1 text-yellow-500" aria-hidden="true">
                   {[0, 1, 2, 3, 4].map((star) => (
                     <Star key={star} className="size-4 fill-yellow-400" />
@@ -1020,7 +1051,7 @@ export function LandingPage() {
           </div>
           <div className="grid gap-5 md:grid-cols-3">
             {blogPosts.map((post) => (
-              <article key={post.title} className="gsap-reveal  flex h-full flex-col rounded-lg border border-white/[0.12] bg-white/[0.08] p-6">
+              <article key={post.title} className="gsap-reveal flex h-full flex-col rounded-lg border border-white/12 bg-white/8 p-6 transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:bg-white/15 hover:border-white/25 hover:shadow-2xl">
                 <span className="inline-flex rounded-lg bg-yellow-300 w-fit px-3 py-1 text-xs font-black text-slate-950">
                   {post.category}
                 </span>
@@ -1044,7 +1075,7 @@ export function LandingPage() {
           />
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {answerHubItems.map((item) => (
-              <article key={item.question} className="gsap-reveal rounded-lg border border-slate-200 bg-slate-50 p-6">
+              <article key={item.question} className="gsap-reveal rounded-lg border border-slate-200 bg-slate-50 p-6 transition-all duration-300 hover:scale-[1.02] hover:border-blue-300 hover:shadow-lg">
                 <h3 className="text-lg font-black leading-snug text-slate-950">{item.question}</h3>
                 <p className="mt-3 text-sm leading-6 text-slate-600">{item.answer}</p>
               </article>
@@ -1061,7 +1092,7 @@ export function LandingPage() {
           />
           <div className="mx-auto grid max-w-4xl gap-4">
             {faqItems.map((faq) => (
-              <details key={faq.question} className="gsap-reveal group rounded-lg border border-slate-200 bg-slate-50 p-5">
+              <details key={faq.question} className="gsap-reveal group rounded-lg border border-slate-200 bg-slate-50 p-5 transition-all duration-300 hover:scale-[1.01] hover:border-blue-300 hover:shadow-md">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left text-base font-bold text-slate-950">
                   {faq.question}
                   <ChevronDown className="size-5 shrink-0 transition group-open:rotate-180" aria-hidden="true" />
@@ -1093,7 +1124,7 @@ export function LandingPage() {
               ].map((item) => {
                 const Icon = item.icon;
                 return (
-                  <div key={item.label} className="rounded-lg border border-slate-200 bg-white p-5">
+                  <div key={item.label} className="rounded-lg border border-slate-200 bg-white p-5 transition-all duration-300 hover:scale-105 hover:border-green-300 hover:shadow-lg">
                     <div className="flex gap-4">
                       <span className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-green-50 text-green-700">
                         <Icon className="size-5" aria-hidden="true" />
@@ -1116,55 +1147,77 @@ export function LandingPage() {
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="gsap-reveal rounded-lg border border-slate-200 bg-white p-5 shadow-sm md:p-8">
+          <form onSubmit={handleFormSubmit(onSubmit)} className="gsap-reveal rounded-lg border border-slate-200 bg-white p-5 shadow-sm md:p-8">
             <div className="grid gap-5 md:grid-cols-2">
               <label className="grid gap-2 text-sm font-bold text-slate-800">
                 Full Name
                 <input
-                  required
-                  value={form.fullName}
-                  onChange={(event) => setForm((current) => ({ ...current, fullName: event.target.value }))}
-                  className="min-h-12 rounded-lg border border-slate-300 px-4 text-base font-normal outline-none transition focus:border-blue-700 focus:ring-4 focus:ring-blue-100"
+                  {...register("fullName")}
+                  className={`min-h-12 rounded-lg border px-4 text-base font-normal outline-none transition focus:ring-4 ${
+                    errors.fullName
+                      ? "border-red-500 focus:border-red-700 focus:ring-red-100"
+                      : "border-slate-300 focus:border-blue-700 focus:ring-blue-100"
+                  }`}
                   placeholder="Your full name"
                 />
+                {errors.fullName && (
+                  <span className="text-xs font-semibold text-red-600">{errors.fullName.message}</span>
+                )}
               </label>
               <label className="grid gap-2 text-sm font-bold text-slate-800">
                 Phone Number
                 <input
-                  required
-                  value={form.phone}
-                  onChange={(event) => setForm((current) => ({ ...current, phone: event.target.value }))}
-                  className="min-h-12 rounded-lg border border-slate-300 px-4 text-base font-normal outline-none transition focus:border-blue-700 focus:ring-4 focus:ring-blue-100"
+                  {...register("phone")}
+                  className={`min-h-12 rounded-lg border px-4 text-base font-normal outline-none transition focus:ring-4 ${
+                    errors.phone
+                      ? "border-red-500 focus:border-red-700 focus:ring-red-100"
+                      : "border-slate-300 focus:border-blue-700 focus:ring-blue-100"
+                  }`}
                   placeholder="080..."
                 />
+                {errors.phone && (
+                  <span className="text-xs font-semibold text-red-600">{errors.phone.message}</span>
+                )}
               </label>
               <label className="grid gap-2 text-sm font-bold text-slate-800">
                 School/Campus
                 <input
-                  required
-                  value={form.campus}
-                  onChange={(event) => setForm((current) => ({ ...current, campus: event.target.value }))}
-                  className="min-h-12 rounded-lg border border-slate-300 px-4 text-base font-normal outline-none transition focus:border-blue-700 focus:ring-4 focus:ring-blue-100"
+                  {...register("campus")}
+                  className={`min-h-12 rounded-lg border px-4 text-base font-normal outline-none transition focus:ring-4 ${
+                    errors.campus
+                      ? "border-red-500 focus:border-red-700 focus:ring-red-100"
+                      : "border-slate-300 focus:border-blue-700 focus:ring-blue-100"
+                  }`}
                   placeholder="LASUSTECH, UNILAG, YABATECH..."
                 />
+                {errors.campus && (
+                  <span className="text-xs font-semibold text-red-600">{errors.campus.message}</span>
+                )}
               </label>
               <label className="grid gap-2 text-sm font-bold text-slate-800">
                 Department/Level
                 <input
-                  required
-                  value={form.departmentLevel}
-                  onChange={(event) => setForm((current) => ({ ...current, departmentLevel: event.target.value }))}
-                  className="min-h-12 rounded-lg border border-slate-300 px-4 text-base font-normal outline-none transition focus:border-blue-700 focus:ring-4 focus:ring-blue-100"
+                  {...register("departmentLevel")}
+                  className={`min-h-12 rounded-lg border px-4 text-base font-normal outline-none transition focus:ring-4 ${
+                    errors.departmentLevel
+                      ? "border-red-500 focus:border-red-700 focus:ring-red-100"
+                      : "border-slate-300 focus:border-blue-700 focus:ring-blue-100"
+                  }`}
                   placeholder="Department and level"
                 />
+                {errors.departmentLevel && (
+                  <span className="text-xs font-semibold text-red-600">{errors.departmentLevel.message}</span>
+                )}
               </label>
               <label className="grid gap-2 text-sm font-bold text-slate-800 md:col-span-2">
                 Service Needed
                 <select
-                  required
-                  value={form.serviceNeeded}
-                  onChange={(event) => setForm((current) => ({ ...current, serviceNeeded: event.target.value }))}
-                  className="min-h-12 rounded-lg border border-slate-300 bg-white px-4 text-base font-normal outline-none transition focus:border-blue-700 focus:ring-4 focus:ring-blue-100"
+                  {...register("serviceNeeded")}
+                  className={`min-h-12 rounded-lg border bg-white px-4 text-base font-normal outline-none transition focus:ring-4 ${
+                    errors.serviceNeeded
+                      ? "border-red-500 focus:border-red-700 focus:ring-red-100"
+                      : "border-slate-300 focus:border-blue-700 focus:ring-blue-100"
+                  }`}
                 >
                   <option value="">Select a service</option>
                   <option>Printing, typing, scanning, binding</option>
@@ -1176,16 +1229,24 @@ export function LandingPage() {
                   <option>Business or department branding</option>
                   <option>Retainership or referral program</option>
                 </select>
+                {errors.serviceNeeded && (
+                  <span className="text-xs font-semibold text-red-600">{errors.serviceNeeded.message}</span>
+                )}
               </label>
               <label className="grid gap-2 text-sm font-bold text-slate-800 md:col-span-2">
                 Message
                 <textarea
-                  required
-                  value={form.message}
-                  onChange={(event) => setForm((current) => ({ ...current, message: event.target.value }))}
-                  className="min-h-36 rounded-lg border border-slate-300 px-4 py-3 text-base font-normal outline-none transition focus:border-blue-700 focus:ring-4 focus:ring-blue-100"
+                  {...register("message")}
+                  className={`min-h-36 rounded-lg border px-4 py-3 text-base font-normal outline-none transition focus:ring-4 ${
+                    errors.message
+                      ? "border-red-500 focus:border-red-700 focus:ring-red-100"
+                      : "border-slate-300 focus:border-blue-700 focus:ring-blue-100"
+                  }`}
                   placeholder="Describe the service you need, deadline, file details, or package."
                 />
+                {errors.message && (
+                  <span className="text-xs font-semibold text-red-600">{errors.message.message}</span>
+                )}
               </label>
             </div>
 
@@ -1202,11 +1263,11 @@ export function LandingPage() {
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <button
                 type="submit"
-                disabled={submitting}
+                disabled={isSubmitting}
                 className="inline-flex min-h-12 flex-1 items-center justify-center gap-2 rounded-lg bg-blue-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-70"
               >
                 <Send className="size-4" aria-hidden="true" />
-                {submitting ? "Sending..." : "Send Request"}
+                {isSubmitting ? "Sending..." : "Send Request"}
               </button>
               <a
                 href={formWhatsappLink}

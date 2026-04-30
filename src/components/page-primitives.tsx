@@ -9,7 +9,7 @@ import { whatsappLink } from "@/lib/site";
 
 export function PageChrome({ children }: { children: ReactNode }) {
   return (
-    <main className="theme-root min-h-screen overflow-hidden bg-slate-50 transition-colors duration-300">
+    <main className="theme-root min-h-screen overflow-hidden bg-slate-50 pt-[74px] transition-colors duration-300">
       <SiteHeader />
       {children}
       <SiteFooter />

@@ -70,14 +70,14 @@ export default function BlogIndexPage() {
                 branding.
               </p>
             </div>
-            <div className="rounded-lg border border-white/15 bg-white/[0.08] p-6 backdrop-blur">
+            <div className="rounded-lg border border-white/15 bg-white/8 p-6 backdrop-blur">
               <div className="flex items-center gap-3 text-sm font-bold text-white">
                 <Search className="size-5 text-cyan-200" aria-hidden="true" />
                 Popular student searches
               </div>
               <div className="mt-5 flex flex-wrap gap-2">
                 {popularSearches.map((item) => (
-                  <span key={item} className="rounded-lg border border-white/15 bg-white/[0.08] px-3 py-2 text-xs font-bold text-slate-100">
+                  <span key={item} className="rounded-lg border border-white/15 bg-white/8 px-3 py-2 text-xs font-bold text-slate-100 transition-all duration-300 hover:scale-105 hover:bg-white/15 hover:border-white/25">
                     {item}
                   </span>
                 ))}
@@ -90,7 +90,7 @@ export default function BlogIndexPage() {
 
       <section className="smoke-section bg-white py-20">
         <div className="section-shell grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-          <article className="rounded-lg border border-slate-200 bg-slate-50 p-6 shadow-sm md:p-8">
+          <article className="rounded-lg border border-slate-200 bg-slate-50 p-6 shadow-sm transition-all duration-300 hover:scale-[1.01] hover:border-blue-300 hover:shadow-xl md:p-8">
             <div className="flex flex-wrap items-center gap-3">
               <span className="inline-flex rounded-lg bg-blue-50 px-3 py-1 text-xs font-black text-blue-900">
                 Featured Guide
@@ -133,7 +133,7 @@ export default function BlogIndexPage() {
             </div>
             <div className="mt-5 grid gap-3">
               {categories.map((category) => (
-                <div key={category} className="rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700">
+                <div key={category} className="rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 transition-all duration-300 hover:scale-105 hover:border-blue-300 hover:shadow-md">
                   {category}
                 </div>
               ))}
@@ -164,7 +164,7 @@ export default function BlogIndexPage() {
 
           <div className="grid gap-5 md:grid-cols-3">
             {blogPosts.map((post) => (
-              <article key={post.slug} className="flex h-full flex-col rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+              <article key={post.slug} className="flex h-full flex-col rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] hover:border-blue-300 hover:shadow-xl">
                 <span className="inline-flex rounded-lg w-fit bg-blue-50 px-3 py-1 text-xs font-black text-blue-900">
                   {post.category}
                 </span>

@@ -71,7 +71,7 @@ export default function ContactPage() {
               {contactCards.map((item) => {
                 const Icon = item.icon;
                 const content = (
-                  <div className="rounded-lg border border-slate-200 bg-slate-50 p-5 transition hover:border-blue-200 hover:bg-white">
+                  <div className="rounded-lg border border-slate-200 bg-slate-50 p-5 transition-all duration-300 hover:scale-105 hover:border-blue-300 hover:shadow-lg">
                     <div className="flex gap-4">
                       <span className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-800">
                         <Icon className="size-5" aria-hidden="true" />
