@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { BadgeCheck, CheckCircle2, Gift, MessageCircle, Repeat, Users } from "lucide-react";
+import { JsonLd } from "@/components/json-ld";
 import { PageChrome, PageHero, SectionIntro } from "@/components/page-primitives";
 import { heroImages } from "@/lib/hero-images";
 import { retainershipPlans } from "@/lib/offerings";
-import { siteConfig } from "@/lib/seo";
+import { getBreadcrumbJsonLd, siteConfig } from "@/lib/seo";
 import { whatsappLink } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -65,7 +66,12 @@ const benefits = [
 
 export default function RetainershipPage() {
   return (
-    <PageChrome>
+    <>
+      <JsonLd data={getBreadcrumbJsonLd([
+        { name: "Home", url: "/" },
+        { name: "Retainership", url: "/retainership" }
+      ])} />
+      <PageChrome>
       <PageHero
         eyebrow="Retainership Plans"
         title="Retainership Plans for Campus Support"
@@ -161,5 +167,6 @@ export default function RetainershipPage() {
         </div>
       </section>
     </PageChrome>
+    </>
   );
 }

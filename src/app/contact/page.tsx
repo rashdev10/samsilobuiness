@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Clock, MapPin, MessageCircle, Phone, ShieldCheck } from "lucide-react";
 import { ContactForm } from "@/components/contact-form";
+import { JsonLd } from "@/components/json-ld";
 import { PageChrome, PageHero } from "@/components/page-primitives";
 import { heroImages } from "@/lib/hero-images";
-import { siteConfig } from "@/lib/seo";
+import { getBreadcrumbJsonLd, siteConfig } from "@/lib/seo";
 import { business, whatsappLink } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -67,7 +68,12 @@ const contactCards = [
 
 export default function ContactPage() {
   return (
-    <PageChrome>
+    <>
+      <JsonLd data={getBreadcrumbJsonLd([
+        { name: "Home", url: "/" },
+        { name: "Contact", url: "/contact" }
+      ])} />
+      <PageChrome>
       <PageHero
         eyebrow="Contact Samsilo Digital Hub"
         title="Request Campus Digital Support"
@@ -125,5 +131,6 @@ export default function ContactPage() {
         </div>
       </section>
     </PageChrome>
+    </>
   );
 }

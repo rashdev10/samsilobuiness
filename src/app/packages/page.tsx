@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { CheckCircle2, MessageCircle, Sparkles, Star, WalletCards } from "lucide-react";
+import { JsonLd } from "@/components/json-ld";
 import { PageChrome, PageHero, SectionIntro } from "@/components/page-primitives";
 import { heroImages } from "@/lib/hero-images";
 import { packages } from "@/lib/offerings";
-import { siteConfig } from "@/lib/seo";
+import { getBreadcrumbJsonLd, siteConfig } from "@/lib/seo";
 import { whatsappLink } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -49,7 +50,12 @@ const comparisons = [
 
 export default function PackagesPage() {
   return (
-    <PageChrome>
+    <>
+      <JsonLd data={getBreadcrumbJsonLd([
+        { name: "Home", url: "/" },
+        { name: "Packages", url: "/packages" }
+      ])} />
+      <PageChrome>
       <PageHero
         eyebrow="Packages & Starting Prices"
         title="Service Packages for Students and Departments"
@@ -133,5 +139,6 @@ export default function PackagesPage() {
         </div>
       </section>
     </PageChrome>
+    </>
   );
 }

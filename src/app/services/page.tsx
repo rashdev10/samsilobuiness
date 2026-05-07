@@ -11,10 +11,11 @@ import {
   School,
   ShieldCheck
 } from "lucide-react";
+import { JsonLd } from "@/components/json-ld";
 import { PageChrome, PageHero, SectionIntro } from "@/components/page-primitives";
 import { heroImages } from "@/lib/hero-images";
 import { serviceCategories } from "@/lib/offerings";
-import { siteConfig } from "@/lib/seo";
+import { getBreadcrumbJsonLd, siteConfig } from "@/lib/seo";
 import { whatsappLink } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -70,7 +71,12 @@ const workflows = [
 
 export default function ServicesPage() {
   return (
-    <PageChrome>
+    <>
+      <JsonLd data={getBreadcrumbJsonLd([
+        { name: "Home", url: "/" },
+        { name: "Services", url: "/services" }
+      ])} />
+      <PageChrome>
       <PageHero
         eyebrow="Campus Digital Services"
         title="Digital Services for Campus Needs"
@@ -165,5 +171,6 @@ export default function ServicesPage() {
         </div>
       </section>
     </PageChrome>
+    </>
   );
 }

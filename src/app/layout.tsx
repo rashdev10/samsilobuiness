@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { PwaRegister } from "@/components/pwa-register";
-import { seoKeywords, siteConfig } from "@/lib/seo";
+import { allSeoKeywords, siteConfig } from "@/lib/seo";
 import "./globals.css";
 
 const themeScript = `
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.name}`
   },
   description: siteConfig.description,
-  keywords: seoKeywords,
+  keywords: allSeoKeywords,
   authors: [{ name: siteConfig.name }],
   creator: siteConfig.name,
   publisher: siteConfig.name,
@@ -45,6 +45,14 @@ export const metadata: Metadata = {
       "max-snippet": -1,
       "max-video-preview": -1
     }
+  },
+  verification: {
+    google: siteConfig.verification.google || undefined,
+    ...(siteConfig.verification.bing && {
+      other: {
+        "msvalidate.01": siteConfig.verification.bing
+      }
+    })
   },
   openGraph: {
     title: `${siteConfig.name} | Campus Digital Service Nigeria`,
@@ -97,7 +105,11 @@ export const metadata: Metadata = {
   other: {
     "mobile-web-app-capable": "yes",
     "msapplication-TileColor": "#061745",
-    "msapplication-tap-highlight": "no"
+    "msapplication-tap-highlight": "no",
+    "geo.region": siteConfig.geo.region,
+    "geo.placename": siteConfig.geo.placename,
+    "geo.position": siteConfig.geo.position,
+    "ICBM": siteConfig.geo.position
   }
 };
 

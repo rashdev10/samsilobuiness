@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { ArrowRight, BadgeCheck, GraduationCap, Handshake, MapPin, Rocket, Users } from "lucide-react";
+import { JsonLd } from "@/components/json-ld";
 import { PageChrome, PageHero, SectionIntro } from "@/components/page-primitives";
 import { heroImages } from "@/lib/hero-images";
-import { siteConfig } from "@/lib/seo";
+import { getBreadcrumbJsonLd, siteConfig } from "@/lib/seo";
 import { business, whatsappLink } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -73,7 +74,12 @@ const strengths = [
 
 export default function AboutPage() {
   return (
-    <PageChrome>
+    <>
+      <JsonLd data={getBreadcrumbJsonLd([
+        { name: "Home", url: "/" },
+        { name: "About", url: "/about" }
+      ])} />
+      <PageChrome>
       <PageHero
         eyebrow="About Samsilo Digital Hub"
         title="Campus Digital Support for Students"
@@ -184,5 +190,6 @@ export default function AboutPage() {
         </div>
       </section>
     </PageChrome>
+    </>
   );
 }
