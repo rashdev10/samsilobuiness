@@ -60,7 +60,7 @@ export const siteConfig = {
   },
   // Verification tags (add your actual verification codes)
   verification: {
-    google: "f50R8nYhUI_OlgxDNa0d3NsXUGdi8UIC0ZzJGdPM7us", // Add Google Search Console verification
+    google: "SWosAbt4UNVUf1UokBJY8ogFo_MvIYaYREJMZKVvfHo", // Google Search Console verification
     bing: "",   // Add Bing Webmaster verification
     yandex: "" // Add Yandex verification if needed
   },
